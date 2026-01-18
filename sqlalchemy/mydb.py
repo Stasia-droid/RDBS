@@ -37,7 +37,6 @@ class Country(Base):
     country_id = Column(Integer, primary_key=True, autoincrement=True)
     country_name = Column(String, nullable=False)
 
-    # Связь с авторами
     authors = relationship("Author", back_populates="country")
 
 
@@ -49,7 +48,6 @@ class Author(Base):
     country_id = Column(Integer, ForeignKey('countries.country_id'))
 
     country = relationship("Country", back_populates="authors")
-    # Many-to-Many с книгами
     books = relationship("Book", secondary=books_authors, back_populates="authors")
 
 
@@ -71,7 +69,6 @@ class Book(Base):
     status = relationship("BookStatus", back_populates="books")
     notes = relationship("Note", back_populates="book")
 
-    # Many-to-Many связи
     authors = relationship("Author", secondary=books_authors, back_populates="books")
     genres = relationship("Genre", secondary=genres_books, back_populates="books")
 
@@ -81,10 +78,9 @@ class Genre(Base):
     id_genres = Column(Integer, primary_key=True, autoincrement=True)
     name_genre = Column(String, nullable=False)
     description = Column(Text)
-    created_at = Column(Integer)  # На схеме указан Integer
+    created_at = Column(Integer)
     parent_id = Column(Integer, ForeignKey('genres.id_genres'))
 
-    # Связь "родитель-потомок" для жанров
     sub_genres = relationship("Genre", backref="parent_genre", remote_side=[id_genres])
     books = relationship("Book", secondary=genres_books, back_populates="genres")
 
@@ -97,5 +93,6 @@ class Note(Base):
     id_books = Column(Integer, ForeignKey('books.id_books'))
 
     book = relationship("Book", back_populates="notes")
+
 
 
