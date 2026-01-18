@@ -70,8 +70,7 @@ create table books_history (
     book_id integer,
     old_title text,
     new_title text,
-    change_date timestamp without time zone default  current_timestamp,
-    constraint fk_history_book foreign key (book_id) references books (id_books)
+    change_date timestamp without time zone default  current_timestamp
 );
 
 create table audit_stats (
@@ -81,4 +80,5 @@ create table audit_stats (
     total_authors integer,
     total_books integer,
     constraint fk_stats_log foreign key (log_id) references audit_logs (log_id)
+
 );
